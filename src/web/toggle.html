@@ -4,68 +4,131 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>JS Bin</title>
+  <!--
+    Todo
+    - Basic styles
+    - Animate 
+    - Prevent text selection during click
+    - ARIA and announcing state changes
+    - 
+
+  -->
   <style>
       * { box-sizing: border-box; }
 
       .page {
           width: 800px;
           margin: 0px auto;
+          font-family: "Fira Sans", Roboto, helvetica, sans-serif;
       }
 
       #toggle-run-stop {
           position: relative;
+          user-select: none;
+          cursor: pointer;
           display: inline-block;
-          width: 200px;
+          width: 100px;
           --toggle-height: 34px;
           height: var(--toggle-height);
           border-radius: calc(var(--toggle-height)/2);
-          outline: 1px solid red;
+          border: 1px solid #ccc;
+          background: #e2e2e2;
+          overflow: hidden;
+          padding: 0;
+          box-shadow:
+            inset 0px 1px 1px 0px rgba(0,0,0,0.2),
+            inset 0px -1px 1px 0px rgba(255,255,255,0.4);
+            
+            
       }
 
       #toggle-run-stop .wrapper {
+          position: relative;
           display: flex;
-          position: absolute;
-          outline: 1px solid green;
+          min-width: 500px;
+          transition: left 2s ease-in-out;
+          height: 100%;
+      }
+      #toggle-run-stop.stop-state .wrapper {
+        left: calc(100% - var(--toggle-height) + 1px);
+      }
+      #toggle-run-stop.run-state .wrapper {
+        left: 0;
       }
 
       #toggle-run-stop .thumb {
           display: inline-block;
-          margin-top: 1px;
           height: calc(var(--toggle-height) - 2px);
           width: calc(var(--toggle-height) - 2px);
           border-radius: calc((var(--toggle-height) - 2px) / 2);
-          outline: 1px solid blue;
+          border: 1px solid white;
+          transition: all 2s ease-in-out;
+      }
+      #toggle-run-stop.run-state .thumb {
+          background: blue;
+          transform: rotate(0deg);
+      }
+      #toggle-run-stop.stop-state .thumb {
+          background: red;
+          transform: rotate(360deg);
+      }
+      #toggle-run-stop .thumb span {
+          position: absolute;
+          color: white;
+          font-size: 18px;
+          height: var(--toggle-height);
+          width: var(--toggle-height);
+          line-height: var(--toggle-height);
+          text-align: center;
+          opacity: 0;
+          transition: opacity 1s ease-in-out;
+          transition-delay: 0.5s;
+      }
+      #toggle-run-stop.stop-state .thumb .stop-thumb {
+          opacity: 1;
+      }
+      #toggle-run-stop.run-state .thumb .run-thumb {
+          opacity: 1;
       }
 
       #toggle-run-stop label {
+          cursor: pointer;
           width: 300px;
           line-height: var(--toggle-height);
+          font-size: 0.9;
+          color: #e2e2e2;
+          text-shadow: 0px 0px 1px rgba(255,255,255,0.2);
+          transition: color 1s linear;
+          transition-delay: 1s;
       }
       #toggle-run-stop label.stop-label {
-          padding-right:15px;
+          position: absolute;
+          left: -300px;
           text-align: right;
+          padding-right: 15px;
       }
       #toggle-run-stop label.run-label {
           padding-left: 15px;
       }
+      #toggle-run-stop.stop-state label.stop-label,
+      #toggle-run-stop.run-state label.run-label {
+            color: #777;
+      }
 
 
-      #toggle-run-stop.stop-state .wrapper {
-          left: -300px;
-      }
-      #toggle-run-stop.run-state .wrapper {
-          right: -300px;
-      }
   </style>
 </head>
 <body>
     <div class="page">
 
 
-  <div id="toggle-run-stop" class="stop-state">
+  <div id="toggle-run-stop" class="run-state">
     <div class="wrapper">
       <label class="stop-label">Stop</label>
-      <span class="thumb"></span>
+      <span class="thumb">
+        <span class="stop-thumb">■</span>
+        <span class="run-thumb">▶</span>
+      </span>
       <label class="run-label">Run</label>
     </div>
   </div>
