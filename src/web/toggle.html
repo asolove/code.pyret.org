@@ -6,10 +6,10 @@
   <title>JS Bin</title>
   <!--
     Todo
-    - Basic styles
-    - Animate 
-    - Prevent text selection during click
-    - ARIA and announcing state changes
+    - [x] Basic styles
+    - [x] Animate 
+    - [ ] Prevent text selection during click
+    - [ ] ARIA and announcing state changes
     - 
 
   -->
@@ -29,40 +29,45 @@
           display: inline-block;
           width: 100px;
           --toggle-height: 34px;
+          --toggle-animation-length: 1s;
           height: var(--toggle-height);
           border-radius: calc(var(--toggle-height)/2);
-          border: 1px solid #ccc;
-          background: #e2e2e2;
+          background-color: #e2e2e2;
           overflow: hidden;
           padding: 0;
           box-shadow:
             inset 0px 1px 1px 0px rgba(0,0,0,0.2),
-            inset 0px -1px 1px 0px rgba(255,255,255,0.4);
-            
-            
+            inset 0px -1px 1px 0px rgba(255,255,255,0.5);
+          transition: background-color var(--toggle-animation-length) ease-in-out;
+      }
+      #toggle-run-stop.stop-state {
+          background-color: #d0d0d0;
       }
 
       #toggle-run-stop .wrapper {
           position: relative;
           display: flex;
           min-width: 500px;
-          transition: left 2s ease-in-out;
+          transition: left var(--toggle-animation-length) ease-in-out;
           height: 100%;
       }
       #toggle-run-stop.stop-state .wrapper {
-        left: calc(100% - var(--toggle-height) + 1px);
+        left: calc(100% - var(--toggle-height));
       }
       #toggle-run-stop.run-state .wrapper {
         left: 0;
       }
 
       #toggle-run-stop .thumb {
+          margin-top: 2px;
+          margin-left: 2px;
           display: inline-block;
-          height: calc(var(--toggle-height) - 2px);
-          width: calc(var(--toggle-height) - 2px);
-          border-radius: calc((var(--toggle-height) - 2px) / 2);
-          border: 1px solid white;
-          transition: all 2s ease-in-out;
+          height: calc(var(--toggle-height) - 4px);
+          width: calc(var(--toggle-height) - 4px);
+          border-radius: calc((var(--toggle-height) - 4px) / 2);
+          border: 1px solid #ddd;
+          transition: all var(--toggle-animation-length) ease-in-out;
+          overflow: hidden;
       }
       #toggle-run-stop.run-state .thumb {
           background: blue;
@@ -74,32 +79,42 @@
       }
       #toggle-run-stop .thumb span {
           position: absolute;
-          color: white;
-          font-size: 18px;
-          height: var(--toggle-height);
-          width: var(--toggle-height);
-          line-height: var(--toggle-height);
-          text-align: center;
           opacity: 0;
-          transition: opacity 1s ease-in-out;
-          transition-delay: 0.5s;
+          transition: all calc(var(--toggle-animation-length)/2) ease-in-out;
+          transition-delay: calc(var(--toggle-animation-length)/4);
       }
-      #toggle-run-stop.stop-state .thumb .stop-thumb {
-          opacity: 1;
+      #toggle-run-stop .thumb .run-thumb {
+          left: 50%;
+          margin-left: -6px;
+          top: 50%;
+          margin-top: -9px;
+          border-left: 15.5px solid #fff;
+          border-top: 9px solid transparent;
+          border-bottom: 9px solid transparent;
       }
+      #toggle-run-stop .thumb .stop-thumb {
+          left: 50%;
+          margin-left: -6px;
+          top: 50%;
+          margin-top: -6px;
+          height: 12px;
+          width: 12px;
+          background: white;
+      }
+      #toggle-run-stop.stop-state .thumb .stop-thumb,
       #toggle-run-stop.run-state .thumb .run-thumb {
-          opacity: 1;
+           opacity: 1;
       }
 
       #toggle-run-stop label {
           cursor: pointer;
           width: 300px;
-          line-height: var(--toggle-height);
+          line-height: calc(var(--toggle-height) + 2px);
           font-size: 0.9;
-          color: #e2e2e2;
-          text-shadow: 0px 0px 1px rgba(255,255,255,0.2);
-          transition: color 1s linear;
-          transition-delay: 1s;
+          color: #fff;
+          text-shadow: 0px -1px 0px rgba(255,255,255,0.4);
+          transition: color var(--toggle-animation-length) ease-in-out;
+
       }
       #toggle-run-stop label.stop-label {
           position: absolute;
@@ -126,14 +141,15 @@
     <div class="wrapper">
       <label class="stop-label">Stop</label>
       <span class="thumb">
-        <span class="stop-thumb">■</span>
-        <span class="run-thumb">▶</span>
+        <span class="stop-thumb"></span>
+        <span class="run-thumb"></span>
       </span>
       <label class="run-label">Run</label>
     </div>
   </div>
 
 </div>
+
 
 <script>
     var toggle = document.getElementById("toggle-run-stop");
