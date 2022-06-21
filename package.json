@@ -31,7 +31,7 @@
     "es6-shim": "0.35.0",
     "eslint": "^6.6.0",
     "express": "^4.1.1",
-    "git-rev-sync": "^1.11.1",
+    "git-rev-sync": "^3.0.02",
     "googleapis": "^46.0.0",
     "handlebars": "^4.7.6",
     "heroku": "^7.42.6",
